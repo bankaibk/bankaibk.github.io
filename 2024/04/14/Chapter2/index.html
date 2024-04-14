@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="2.有监督学习12%matplotlib inlineimport matplotlib.pyplot as plt  2. 1线性回归1234567891011from sklearn.linear_model import LinearRegressionX &#x3D; [[10.0], [8.0], [13.0], [9.0], [11.0], [14.0], [6.0], [4.0], [12.0">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Chapter2">
+<meta property="og:url" content="http://example.com/2024/04/14/Chapter2/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="2.有监督学习12%matplotlib inlineimport matplotlib.pyplot as plt  2. 1线性回归1234567891011from sklearn.linear_model import LinearRegressionX &#x3D; [[10.0], [8.0], [13.0], [9.0], [11.0], [14.0], [6.0], [4.0], [12.0">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/image/output_4_1.png">
+<meta property="og:image" content="http://example.com/image/linear.jpg">
+<meta property="og:image" content="http://example.com/image/Ridge.jpg">
+<meta property="og:image" content="http://example.com/image/output_11_1.png">
+<meta property="og:image" content="http://example.com/image/alpha.jpg">
+<meta property="og:image" content="http://example.com/image/Lasso.jpg">
+<meta property="og:image" content="http://example.com/image/Sigmod.jpg">
+<meta property="og:image" content="http://example.com/image/output_20_1.png">
+<meta property="og:image" content="http://example.com/image/interval.jpg">
+<meta property="og:image" content="http://example.com/image/output_26_1.png">
+<meta property="og:image" content="http://example.com/image/kernel.jpg">
+<meta property="og:image" content="http://example.com/image/output_34_1.png">
+<meta property="og:image" content="http://example.com/image/precedent.jpg">
+<meta property="og:image" content="http://example.com/image/collection.jpg">
+<meta property="og:image" content="http://example.com/image/vector.jpg">
+<meta property="og:image" content="http://example.com/image/verify.jpg">
+<meta property="og:image" content="http://example.com/divide.jpg">
+<meta property="og:image" content="http://example.com/image/mnist.jpg">
+<meta property="og:image" content="http://example.com/image/nerve.jpg">
+<meta property="og:image" content="http://example.com/image/output_70_1.png">
+<meta property="og:image" content="http://example.com/image/diffK.jpg">
+<meta property="article:published_time" content="2024-04-14T14:19:31.000Z">
+<meta property="article:modified_time" content="2024-04-14T14:27:14.379Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/image/output_4_1.png">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Chapter2</title>
+    <!-- async scripts -->
+    <!-- Google Analytics -->
+
+
+    <!-- Umami Analytics -->
+
+
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 7.1.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fa-solid fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa-solid fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/bankaibk">Projects</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2024/04/13/a/"><i class="fa-solid fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fa-solid fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2024/04/14/Chapter2/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2024/04/14/Chapter2/&text=Chapter2"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2024/04/14/Chapter2/&title=Chapter2"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2024/04/14/Chapter2/&is_video=false&description=Chapter2"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Chapter2&body=Check out this article: http://example.com/2024/04/14/Chapter2/"><i class="fa-solid fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2024/04/14/Chapter2/&title=Chapter2"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2024/04/14/Chapter2/&title=Chapter2"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2024/04/14/Chapter2/&title=Chapter2"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2024/04/14/Chapter2/&title=Chapter2"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2024/04/14/Chapter2/&name=Chapter2&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2024/04/14/Chapter2/&t=Chapter2"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    
+    
+      <div id="toc">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%9C%89%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0"><span class="toc-number">1.</span> <span class="toc-text">2.有监督学习</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92"><span class="toc-number">1.1.</span> <span class="toc-text">2. 1线性回归</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2%E6%AD%A3%E5%88%99%E5%8C%96"><span class="toc-number">1.2.</span> <span class="toc-text">2. 2正则化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92"><span class="toc-number">1.3.</span> <span class="toc-text">2. 3逻辑回归</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA"><span class="toc-number">1.4.</span> <span class="toc-text">2. 4支持向量机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA-%E6%A0%B8%E6%96%B9%E6%B3%95"><span class="toc-number">1.5.</span> <span class="toc-text">2. 5支持向量机(核方法)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF"><span class="toc-number">1.6.</span> <span class="toc-text">2. 6朴素贝叶斯</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-7%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97"><span class="toc-number">1.7.</span> <span class="toc-text">2. 7随机森林</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C"><span class="toc-number">1.8.</span> <span class="toc-text">2. 8神经网络</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-9KNN"><span class="toc-number">1.9.</span> <span class="toc-text">2. 9KNN</span></a></li></ol></li></ol>
+      </div>
+    
+  </span>
+</div>
+
+    
+    <div class="content index py4 ">
+        
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle p-name" itemprop="name headline">
+        Chapter2
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author p-author h-card" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span class="p-name" itemprop="name">John Doe</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2024-04-14T14:19:31.000Z" class="dt-published" itemprop="datePublished">2024-04-14</time>
+        
+      
+    </div>
+
+
+      
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content e-content" itemprop="articleBody">
+    <h2 id="2-有监督学习"><a href="#2-有监督学习" class="headerlink" title="2.有监督学习"></a>2.有监督学习</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">%matplotlib inline</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-1线性回归"><a href="#2-1线性回归" class="headerlink" title="2. 1线性回归"></a>2. 1线性回归</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LinearRegression</span><br><span class="line">X = [[<span class="number">10.0</span>], [<span class="number">8.0</span>], [<span class="number">13.0</span>], [<span class="number">9.0</span>], [<span class="number">11.0</span>], [<span class="number">14.0</span>],</span><br><span class="line"> [<span class="number">6.0</span>], [<span class="number">4.0</span>], [<span class="number">12.0</span>], [<span class="number">7.0</span>], [<span class="number">5.0</span>]]</span><br><span class="line">y = [<span class="number">8.04</span>, <span class="number">6.95</span>, <span class="number">7.58</span>, <span class="number">8.81</span>, <span class="number">8.33</span>, <span class="number">9.96</span>,</span><br><span class="line"> <span class="number">7.24</span>, <span class="number">4.26</span>, <span class="number">10.84</span>, <span class="number">4.82</span>, <span class="number">5.68</span>]</span><br><span class="line">model = LinearRegression()</span><br><span class="line">model.fit(X, y)</span><br><span class="line"><span class="built_in">print</span>(model.intercept_) <span class="comment"># 截距</span></span><br><span class="line"><span class="built_in">print</span>(model.coef_) <span class="comment"># 斜率</span></span><br><span class="line">y_pred = model.predict([[<span class="number">0</span>], [<span class="number">1</span>]])</span><br><span class="line"><span class="built_in">print</span>(y_pred) <span class="comment"># 对x=0, x=1的预测结果</span></span><br></pre></td></tr></table></figure>
+
+<pre><code>3.0000909090909103
+[0.50009091]
+[3.00009091 3.50018182]
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 绘制数据集散点图</span></span><br><span class="line">plt.scatter(X, y, color=<span class="string">&#x27;blue&#x27;</span>, label=<span class="string">&#x27;Data&#x27;</span>)</span><br><span class="line"><span class="comment"># 绘制回归线</span></span><br><span class="line">y_pred = model.predict(X)</span><br><span class="line">plt.plot(X, y_pred, color=<span class="string">&#x27;red&#x27;</span>, label=<span class="string">&#x27;Linear Regression Model&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>[&lt;matplotlib.lines.Line2D at 0x76614e0d2150&gt;]
+</code></pre>
+<p><img src="/image/output_4_1.png" alt="png"></p>
+<p><img src="/image/linear.jpg" alt="title"></p>
+<h3 id="2-2正则化"><a href="#2-2正则化" class="headerlink" title="2. 2正则化"></a>2. 2正则化</h3><p>正则化是防止过拟合的一种方法，与线性回归等算法配合使用。通过向损失函数增加惩罚项的<br>方式对模型施加制约，有望提高模型的泛化能力。</p>
+<ul>
+<li>岭回归</li>
+</ul>
+<p>岭回归误差函数<br><br><img src="/image/Ridge.jpg" alt="title"><br><br>第一项是线性回归的损失函数；<br><br>第二项被称为惩罚项(正则化项)，是学习参数的的平方和的形式；<br><br>α（α ≥ 0）是控制正则化强度的参数，α 越大，对学习参数的抑制越强；α 越小，对训<br>练数据过拟合的可能性越大</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> PolynomialFeatures <span class="comment">#用于生成多项式特征</span></span><br><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> Ridge <span class="comment"># 实现岭回归模型</span></span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> mean_squared_error <span class="comment"># 用于计算均方误差</span></span><br><span class="line">train_size = <span class="number">20</span></span><br><span class="line">test_size = <span class="number">12</span></span><br><span class="line"><span class="comment"># 随机生成训练集和测试集</span></span><br><span class="line">train_X = np.random.uniform(low=<span class="number">0</span>, high=<span class="number">1.2</span>, size=train_size)</span><br><span class="line">test_X = np.random.uniform(low=<span class="number">0.1</span>, high=<span class="number">1.3</span>, size=test_size)</span><br><span class="line">train_y = np.sin(train_X * <span class="number">2</span> * np.pi) + np.random.normal(<span class="number">0</span>, <span class="number">0.2</span>, train_size)</span><br><span class="line">test_y = np.sin(test_X * <span class="number">2</span> * np.pi) + np.random.normal(<span class="number">0</span>, <span class="number">0.2</span>, test_size)</span><br><span class="line"><span class="comment"># 多项式次数为6</span></span><br><span class="line">poly = PolynomialFeatures(<span class="number">6</span>)</span><br><span class="line">train_poly_X = poly.fit_transform(train_X.reshape(train_size, <span class="number">1</span>))</span><br><span class="line">test_poly_X = poly.fit_transform(test_X.reshape(test_size, <span class="number">1</span>))</span><br><span class="line"><span class="comment"># 设置正则化参数为1.0</span></span><br><span class="line">model = Ridge(alpha=<span class="number">1.0</span>)</span><br><span class="line">model.fit(train_poly_X, train_y)</span><br><span class="line">train_pred_y = model.predict(train_poly_X)</span><br><span class="line">test_pred_y = model.predict(test_poly_X)</span><br><span class="line"><span class="built_in">print</span>(mean_squared_error(train_pred_y, train_y))</span><br><span class="line"><span class="built_in">print</span>(mean_squared_error(test_pred_y, test_y))</span><br></pre></td></tr></table></figure>
+
+<pre><code>0.2754178280948556
+0.26375334762749925
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 绘制拟合曲线</span></span><br><span class="line">x_values = np.linspace(<span class="number">0</span>, <span class="number">1.5</span>, <span class="number">100</span>).reshape(-<span class="number">1</span>, <span class="number">1</span>)</span><br><span class="line">x_poly = poly.transform(x_values)</span><br><span class="line">y_values = model.predict(x_poly)</span><br><span class="line"></span><br><span class="line">plt.scatter(train_X, train_y, color=<span class="string">&#x27;blue&#x27;</span>, label=<span class="string">&#x27;Train Data&#x27;</span>)</span><br><span class="line">plt.scatter(test_X, test_y, color=<span class="string">&#x27;red&#x27;</span>, label=<span class="string">&#x27;Test Data&#x27;</span>)</span><br><span class="line">plt.plot(x_values, y_values, color=<span class="string">&#x27;green&#x27;</span>, label=<span class="string">&#x27;Fitted Curve&#x27;</span>)</span><br><span class="line">plt.xlabel(<span class="string">&#x27;X&#x27;</span>)</span><br><span class="line">plt.ylabel(<span class="string">&#x27;y&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Text(0, 0.5, &#39;y&#39;)
+</code></pre>
+<p><img src="/image/output_11_1.png" alt="png"></p>
+<p>当改变正则化强度参数alpha时，抑制效果也会变化；<br><br>当 α 增大时，可以看出学习参数被抑制，图形变得简单。相反，当 α 变小时，对学习参数的绝<br>对值变大的惩罚力度变缓，模型变复杂；<br><br><img src="/image/alpha.jpg" alt="title"></p>
+<ul>
+<li>岭回归和Lasso回归<br><br>岭回归的误差函数的惩罚项是学习参数的平方和的形式，通过将该惩罚项改为其他形式，可以实现不同特点的正则化;<br><br>另一种具有代表性的正则化方法——Lasso回归；</li>
+</ul>
+<p>Lasso回归误差函数<br><br><img src="/image/Lasso.jpg" alt="title"><br><br>Lasso回归的惩罚项是学习参数的绝对值之和</p>
+<h3 id="2-3逻辑回归"><a href="#2-3逻辑回归" class="headerlink" title="2. 3逻辑回归"></a>2. 3逻辑回归</h3><p>逻辑回归根据数据x和表示其所属类别的标签y进行学习，计算概率。数据x可以当作由特征值组成的向量处理。<br><br>如果标签是二元分类，则可以使用前面的y&#x3D;0,1这种二元数值表示。</p>
+<p>逻辑回归的基本思想与线性回归一样，对数据x乘以权重向量w，再加上偏置w0<br><br>与线性回归不同的是，为了计算概率，逻辑回归的输出范围必须限制在0和1之间。逻辑回归使用Sigmoid 函数σ(z) &#x3D; 1&#x2F; [1 + exp(−z)]，返回0和1之间的数值<br><br><img src="/image/Sigmod.jpg" alt="title"><br><br>我们对逻辑回归得到的数据进行Sigmod计算，以0.5为分界线划分概率</p>
+<ul>
+<li>下面是一段关于计算在0℃、1℃、2℃时积雪的概率的逻辑回归代码</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> sklearn.linear_model <span class="keyword">import</span> LogisticRegression</span><br><span class="line"><span class="comment"># 生成均值为3标准差为1的正态分布数据和均值为-1标准差为1的正态分布数据，并将它们合并为一个大小为(100,1)的二维数组</span></span><br><span class="line">X_train = np.r_[np.random.normal(<span class="number">3</span>, <span class="number">1</span>, size=<span class="number">50</span>),</span><br><span class="line">np.random.normal(-<span class="number">1</span>, <span class="number">1</span>, size=<span class="number">50</span>)].reshape((<span class="number">100</span>, -<span class="number">1</span>))</span><br><span class="line"><span class="comment"># 生成50个值全为1和50个值全为0的数组</span></span><br><span class="line">y_train = np.r_[np.ones(<span class="number">50</span>), np.zeros(<span class="number">50</span>)]</span><br><span class="line">model = LogisticRegression()</span><br><span class="line">model.fit(X_train, y_train)</span><br><span class="line">model.predict_proba([[<span class="number">0</span>], [<span class="number">1</span>], [<span class="number">2</span>]])[:, <span class="number">1</span>]</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>array([0.07120832, 0.45642381, 0.9019232 ])
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">plt.scatter(X_train, y_train, c=y_train, cmap=<span class="string">&#x27;viridis&#x27;</span>, edgecolors=<span class="string">&#x27;k&#x27;</span>)</span><br><span class="line">plt.xlabel(<span class="string">&#x27;Feature&#x27;</span>)</span><br><span class="line">plt.ylabel(<span class="string">&#x27;Target&#x27;</span>)</span><br><span class="line">x_values = np.linspace(-<span class="number">3</span>, <span class="number">6</span>, <span class="number">300</span>).reshape(-<span class="number">1</span>, <span class="number">1</span>)</span><br><span class="line">y_values = model.predict_proba(x_values)[:, <span class="number">1</span>]</span><br><span class="line">plt.plot(x_values, y_values, color=<span class="string">&#x27;red&#x27;</span>, label=<span class="string">&#x27;Logistic Regression Model&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>[&lt;matplotlib.lines.Line2D at 0x76613ff0a150&gt;]
+</code></pre>
+<p><img src="/image/output_20_1.png" alt="png"></p>
+<h3 id="2-4支持向量机"><a href="#2-4支持向量机" class="headerlink" title="2. 4支持向量机"></a>2. 4支持向量机</h3><p>支持向量机（Support Vector Machine，SVM）是一种应用范围非常广泛的算法，既可以用于分类，也可以用于回归。</p>
+<p>线性支持向量机通过最大化间隔来获得更好的用于分类的决策边界<br><br>训练数据中最接近决策边界的数据与决策边界之间的距离就称为间隔<br><br><img src="/image/interval.jpg" alt="title"></p>
+<ul>
+<li>下面是支持向量机对随机生成的二分类数据集进行训练和评估</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.svm <span class="keyword">import</span> LinearSVC</span><br><span class="line"><span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> make_blobs <span class="comment">#用于生成聚类数据集</span></span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> accuracy_score</span><br><span class="line"><span class="comment"># 生成数据，定义两个聚类中心的坐标，用于生成聚类数据集</span></span><br><span class="line">centers = [(-<span class="number">1</span>, -<span class="number">0.125</span>), (<span class="number">0.5</span>, <span class="number">0.5</span>)]</span><br><span class="line">X, y = make_blobs(n_samples=<span class="number">50</span>, n_features=<span class="number">2</span>,</span><br><span class="line">centers=centers, cluster_std=<span class="number">0.3</span>)</span><br><span class="line">X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=<span class="number">0.3</span>)</span><br><span class="line">model = LinearSVC()</span><br><span class="line">model.fit(X_train, y_train)</span><br><span class="line"><span class="comment"># 训练</span></span><br><span class="line">y_pred = model.predict(X_test)</span><br><span class="line">accuracy_score(y_pred, y_test)</span><br><span class="line"><span class="comment"># 评估</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>1.0
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">plt.scatter(X_train[:, <span class="number">0</span>], X_train[:, <span class="number">1</span>], c=y_train, cmap=<span class="string">&#x27;viridis&#x27;</span>, edgecolors=<span class="string">&#x27;k&#x27;</span>)</span><br><span class="line">plt.xlabel(<span class="string">&#x27;Feature 1&#x27;</span>)</span><br><span class="line">plt.ylabel(<span class="string">&#x27;Feature 2&#x27;</span>)</span><br><span class="line"><span class="comment"># 获取决策边界</span></span><br><span class="line">w = model.coef_[<span class="number">0</span>]</span><br><span class="line">a = -w[<span class="number">0</span>] / w[<span class="number">1</span>]</span><br><span class="line">xx = np.linspace(-<span class="number">2</span>, <span class="number">2</span>)</span><br><span class="line">yy = a * xx - (model.intercept_[<span class="number">0</span>]) / w[<span class="number">1</span>]</span><br><span class="line"><span class="comment"># 绘制决策边界</span></span><br><span class="line">plt.plot(xx, yy, <span class="string">&#x27;k-&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>[&lt;matplotlib.lines.Line2D at 0x76613ffb6610&gt;]
+</code></pre>
+<p><img src="/image/output_26_1.png" alt="png"></p>
+<p>在上述所有用过算法中使用的例子都是可以线性分离的情况，这种不允许数据进入间隔内侧的情况称为硬间隔；<br><br>但一般来说，数据并不是完全可以线性分离的，所以要允许一部分数据进入间隔内侧，这种情况叫作软间隔</p>
+<p>基于线性支持向量机的学习结果，我们可以将训练数据分为以下 3 种</p>
+<ol>
+<li>与决策边界之间的距离比间隔还要远的数据：间隔外侧的数据。</li>
+<li>与决策边界之间的距离和间隔相同的数据：间隔上的数据。</li>
+<li>与决策边界之间的距离比间隔近，或者误分类的数据：间隔内侧的数据。<br><br><br>我们将间隔上的数据和间隔内侧的数据特殊对待，称为支持向量</li>
+</ol>
+<h3 id="2-5支持向量机-核方法"><a href="#2-5支持向量机-核方法" class="headerlink" title="2. 5支持向量机(核方法)"></a>2. 5支持向量机(核方法)</h3><p>核方法的一个常见解释是“将数据移动到另一个特征空间，然后进行线性回归”<br><br>虽然构建线性分离的高维空间非常困难，但通过一个叫作核函数的函数，核方法就可以使用在高维空间中学习到的决策边界，而无须构建具体的线性分离的高维空间。</p>
+<p><img src="/image/kernel.jpg" alt="title"></p>
+<p>下面是一段使用核方法的支持向量机学习呈圆形分布的数据的决策边界的代码<br><br>代码中没有明确指定使用哪个核方法，代码默认使用RBF（Radial Basis Function，径向基函数）核方法</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.svm <span class="keyword">import</span> SVC</span><br><span class="line"><span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> make_gaussian_quantiles</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> accuracy_score</span><br><span class="line"><span class="comment"># 生成一个包含300个样本、2个特征的高斯量化数据集，其中指定了两个类别和两个特征</span></span><br><span class="line">X, y = make_gaussian_quantiles(n_features=<span class="number">2</span>, n_classes=<span class="number">2</span>, n_samples=<span class="number">300</span>)</span><br><span class="line">X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=<span class="number">0.3</span>)</span><br><span class="line">model = SVC()</span><br><span class="line">model.fit(X_train, y_train)</span><br><span class="line">y_pred = model.predict(X_test)</span><br><span class="line">accuracy_score(y_pred, y_test)</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>0.9666666666666667
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">x_min, x_max = X[:, <span class="number">0</span>].<span class="built_in">min</span>() - <span class="number">1</span>, X[:, <span class="number">0</span>].<span class="built_in">max</span>() + <span class="number">1</span></span><br><span class="line">y_min, y_max = X[:, <span class="number">1</span>].<span class="built_in">min</span>() - <span class="number">1</span>, X[:, <span class="number">1</span>].<span class="built_in">max</span>() + <span class="number">1</span></span><br><span class="line">xx, yy = np.meshgrid(np.arange(x_min, x_max, <span class="number">0.02</span>),</span><br><span class="line">                     np.arange(y_min, y_max, <span class="number">0.02</span>))</span><br><span class="line">Z = model.predict(np.c_[xx.ravel(), yy.ravel()])</span><br><span class="line">Z = Z.reshape(xx.shape)</span><br><span class="line">plt.contourf(xx, yy, Z, cmap=plt.cm.coolwarm, alpha=<span class="number">0.8</span>)</span><br><span class="line">plt.scatter(X[:, <span class="number">0</span>], X[:, <span class="number">1</span>], c=y, cmap=<span class="string">&#x27;viridis&#x27;</span>, alpha=<span class="number">0.5</span>)</span><br><span class="line">plt.xlabel(<span class="string">&#x27;Feature 1&#x27;</span>)</span><br><span class="line">plt.ylabel(<span class="string">&#x27;Feature 2&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Text(0, 0.5, &#39;Feature 2&#39;)
+</code></pre>
+<p><img src="/image/output_34_1.png" alt="png"></p>
+<h3 id="2-6朴素贝叶斯"><a href="#2-6朴素贝叶斯" class="headerlink" title="2. 6朴素贝叶斯"></a>2. 6朴素贝叶斯</h3><p>朴素贝叶斯是一个基于概率进行预测的算法，在实践中被用于分类问题。<br><br>具体来说，就是计算数据为某个标签的概率，并将其分类为概率值最大的标签。<br><br>朴素贝叶斯主要用于文本分类和垃圾邮件判定等自然语言处理中的分类问题。</p>
+<ul>
+<li>引例</li>
+</ul>
+<p><img src="/image/precedent.jpg" alt="title"></p>
+<p>在“电影”类别的数据中出现“感动”这个词的概率是 2&#x2F;3 ≈ 67%，在“宇宙”类别的数据中则是 1&#x2F;3 ≈ 33%，可见这个词更容易出现在“电影”类别的数据中。另外，在出现“感动”这个词的数据中，类别为“电影”的概率是 2&#x2F;3 ≈ 67%，为“宇宙”的概率是 1&#x2F;3 ≈ 33%。<br><br>朴素贝叶斯不仅使用了单词在文本中出现的比例，还使用了每个单词的条件概率，通过文本中单词的信息提高了计算精度。</p>
+<ul>
+<li>朴素贝叶斯概率计算<ol>
+<li>每个标签出现的概率。</li>
+<li>在各标签下，每个单词出现的条件概率。</li>
+</ol>
+</li>
+</ul>
+<p>在应用朴素贝叶斯时，还需要将输入数据转换为由特征值构成的向量。<br><br>我们先在预处理阶段将文本转换为由特征值构成的向量，然后使用朴素贝叶斯进行训练。</p>
+<ul>
+<li>预处理<ol>
+<li>在预处理阶段，我们将文本转换为 BoW（Bag of Words，词袋）的形式，形成由特征值构成的向量和标签的组合，从现有的训练数据的文本中只提取出名词，忽略名词在文本中的顺序，把它们作为集合处理</li>
+<li>将训练数据和类别转换为易于处理的数据形式。当所有单词的集合包含训练数据的单词时，将该单词列的值设为1，否则设为0。另外，当类别为“电影”时，将类别的值替换为1；当<br>类别为“宇宙”时，将类别的值替换为0</li>
+<li>通过以上处理，我们可以将以自然语言书写的文本转换为表示单词出现的特征值和标签的组合，这种文本表示方式称为 BoW，下面采用同样的做法处理验证数据</li>
+</ol>
+</li>
+</ul>
+<p><img src="/image/collection.jpg" alt="title"><br><img src="/image/vector.jpg" alt="title"><br><img src="/image/verify.jpg" alt="title"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.naive_bayes <span class="keyword">import</span> MultinomialNB</span><br><span class="line"><span class="comment"># 生成数据</span></span><br><span class="line">X_train = [[<span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],</span><br><span class="line">           [<span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],</span><br><span class="line">           [<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],</span><br><span class="line">           [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],</span><br><span class="line">           [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>],</span><br><span class="line">           [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>]]</span><br><span class="line">y_train = [<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]</span><br><span class="line">model = MultinomialNB()</span><br><span class="line">model.fit(X_train, y_train)</span><br><span class="line"><span class="comment"># 训练</span></span><br><span class="line">model.predict([[<span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>]])</span><br><span class="line"><span class="comment"># 评估</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>array([1])
+</code></pre>
+<h3 id="2-7随机森林"><a href="#2-7随机森林" class="headerlink" title="2. 7随机森林"></a>2. 7随机森林</h3><p>随机森林的目标是利用多个决策树模型，获得比单个决策树更高的预测精度。单个决策树的性能并不一定很高，但是多个决策树汇总起来，一定能创建出泛化能力更强的模型。</p>
+<p>随机森林需要采用不同的学习方法创建决策树</p>
+<ul>
+<li>决策树<br><br>决策树是通过将训练数据按条件分支进行划分来解决分类问题的方法，在分割时利用了表示数据杂乱程度（或者不均衡程度）的不纯度的数值。<br>决策树为了使表示数据杂乱程度的不纯度变小，<br>对数据进行分割。<br>当分割出来的组中存在很多相同的标签时，不纯度会变小；反之，当分割出来的组中存在很多不同的标签时，不纯度会变大。</li>
+</ul>
+<p>此处采用基尼系数来表示不纯度<br><br>基尼系数&#x3D;1-SUM(Pi^2)</p>
+<p><img src="/divide.jpg" alt="title"></p>
+<p>由此可见决策树的学习是通过反复分割空间进行的</p>
+<ol>
+<li>计算某个区域的所有特征值和候选分割的不纯度。</li>
+<li>以分割时不纯度减小最多的分割方式分割区域。</li>
+<li>对于分割后的区域，重复步骤 1 和步骤 2。</li>
+</ol>
+<ul>
+<li>随机森林<br><br>假设有3棵独立的决策树，每棵的正确率为0.6。此时，对每棵决策树的结果进行多数表决，并将表决结果作为预测结果，即可提高正确率。<br><br>在这种情况下，预测不正确有两种情况：一种是所有的决策树都预测不正确（概率为 (1 − 0.6)^3 &#x3D;0.064 ）；<br><br>另一种是 3 棵决策树中有 2 棵预测不正确（概率为 3 × (1 − 0.6)^2 × 0.6 &#x3D;0.288 ）；<br><br>所以正确的概率是1 − 0.064 − 0.288 &#x3D; 0.648。</li>
+</ul>
+<p>随机森林首先采用 Bootstrap 方法，根据训练数据生成多个不同内容的训练数据。<br><br>所谓 Bootstrap 方法，即通过对单个训练数据进行多次随机的抽样放回，“虚增”训练数据，这样就可以为每棵决策树输入不同的训练数据。<br><br>然后在根据使用 Bootstrap 方法创建的训练数据训练决策树时，只随机选取部分特征值来训练决策树。<br><br>通过“Bootstrap 方法”和“随机选取特征值”这两种方法，就可以训练出具有多样性的决策树</p>
+<p>下面是一段使用随机森林基于3种葡萄酒的各种测量值数据，对葡萄酒分类的模型</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> load_wine</span><br><span class="line"><span class="keyword">from</span> sklearn.ensemble <span class="keyword">import</span> RandomForestClassifier</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> accuracy_score</span><br><span class="line"><span class="comment"># 读取数据</span></span><br><span class="line">data = load_wine()</span><br><span class="line">X_train, X_test, y_train, y_test = train_test_split(</span><br><span class="line">data.data, data.target, test_size=<span class="number">0.3</span>)</span><br><span class="line">model = RandomForestClassifier()</span><br><span class="line">model.fit(X_train, y_train)</span><br><span class="line"><span class="comment"># 训练</span></span><br><span class="line">y_pred = model.predict(X_test)</span><br><span class="line">accuracy_score(y_pred, y_test)</span><br><span class="line"><span class="comment"># 评估</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>0.9629629629629629
+</code></pre>
+<h3 id="2-8神经网络"><a href="#2-8神经网络" class="headerlink" title="2. 8神经网络"></a>2. 8神经网络</h3><p>神经网络在输入数据和输出结果之间插入了叫作中间层的层，能够学习复杂的决策边界。</p>
+<p>此处我们对一个叫作 MNIST 的手写数字数据集进行分类。MNIST 包含从 0 到 9 的 10 个手写数字的图片，我们对图片进行分类。<br><br>数据集的图片是8*8的灰度图像<br><br><img src="/image/mnist.jpg" alt="title"></p>
+<ul>
+<li><p>输入层<br><br>输入层表示输入图像（64 维向量）本身。如果将各个点的像素值存储在长度为 64 的一维数组的元素中，则可以将其视为 64 维数据来处理。</p>
+</li>
+<li><p>中间层<br><br>使用 Sigmoid 等非线性函数计算输入层传来的数据。中间层的维度是超参数。使维度变大可以学习更加复杂的边界。</p>
+</li>
+<li><p>输出层<br><br>输出的是手写图像分别为0~9这十个数的概率</p>
+</li>
+<li><p>简单感知机<br><br>简单感知机是将非线性函数应用于对特征值加权后的结果并进行识别的模型。<br><br>例如一个二维的特征值(x1,x2)，使用非线性函数f计算概率y &#x3D; f(w0+w1x1+w2x2)，我们将其中的特征值的系数 w1 和 w2 称为权重，将常数项 w0 称为偏置；它们都是学习参数；f函数称为激活函数（常用的激活函数有 Sigmoid 函数）</p>
+</li>
+<li><p>神经网络<br><br>对一些非线性的决策边界，简单感知机不能进行正确分类，而神经网络可通过叠加简单感知机，表示复杂的决策边界；</p>
+</li>
+</ul>
+<p><img src="/image/nerve.jpg" alt="title"></p>
+<p>下面读取MNIST数据集，将其分割成训练数据和验证数据，使用训练数据训练模型，使用验证数据评估正确率</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> load_digits</span><br><span class="line"><span class="keyword">from</span> sklearn.neural_network <span class="keyword">import</span> MLPClassifier</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> accuracy_score</span><br><span class="line"><span class="comment"># 读取数据</span></span><br><span class="line">data = load_digits()</span><br><span class="line">X = data.images.reshape(<span class="built_in">len</span>(data.images), -<span class="number">1</span>)</span><br><span class="line">y = data.target</span><br><span class="line">X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=<span class="number">0.3</span>)</span><br><span class="line">model = model = MLPClassifier(hidden_layer_sizes=(<span class="number">16</span>, ))</span><br><span class="line">model.fit(X_train, y_train)</span><br><span class="line"><span class="comment"># 训练</span></span><br><span class="line">y_pred = model.predict(X_test)</span><br><span class="line">accuracy_score(y_pred, y_test)</span><br><span class="line"><span class="comment"># 评估</span></span><br></pre></td></tr></table></figure>
+
+<pre><code>/home/lay/anaconda3/lib/python3.11/site-packages/sklearn/neural_network/_multilayer_perceptron.py:686: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (200) reached and the optimization hasn&#39;t converged yet.
+  warnings.warn(
+
+
+
+
+
+0.9555555555555556
+</code></pre>
+<h3 id="2-9KNN"><a href="#2-9KNN" class="headerlink" title="2. 9KNN"></a>2. 9KNN</h3><p>在对未知数据进行分类时，KNN 将计算未知数据与训练数据的距离，通过多数表决找到最邻近的k个点，然后进行分类。</p>
+<p>KNN 是一种在训练时机械地记住所有数据的简单算法。该算法使用训练数据对未知输入数据进行分类时的步骤如下。</p>
+<ol>
+<li>计算输入数据与训练数据之间的距离。</li>
+<li>得到距离输入数据最近的 k 个训练数据。</li>
+<li>对训练数据的标签进行多数表决，将结果作为分类结果。</li>
+</ol>
+<p>下面是一段使用KNN对曲线分布的样本数据进行学习的代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sklearn.neighbors <span class="keyword">import</span> KNeighborsClassifier</span><br><span class="line"><span class="keyword">from</span> sklearn.datasets <span class="keyword">import</span> make_moons</span><br><span class="line"><span class="keyword">from</span> sklearn.model_selection <span class="keyword">import</span> train_test_split</span><br><span class="line"><span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> accuracy_score</span><br><span class="line"><span class="comment"># 生成数据</span></span><br><span class="line">X, y = make_moons(noise=<span class="number">0.3</span>)</span><br><span class="line">X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=<span class="number">0.3</span>)</span><br><span class="line"><span class="comment"># 最近邻点k的数量采用默认值5</span></span><br><span class="line">model = KNeighborsClassifier()</span><br><span class="line">model.fit(X_train, y_train)</span><br><span class="line"><span class="comment"># 训练</span></span><br><span class="line">y_pred = model.predict(X_test)</span><br><span class="line">accuracy_score(y_pred, y_test)</span><br><span class="line"><span class="comment"># 评估</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>0.9666666666666667
+</code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 绘制决策边界</span></span><br><span class="line">h = <span class="number">.02</span>  <span class="comment"># 步长</span></span><br><span class="line">x_min, x_max = X[:, <span class="number">0</span>].<span class="built_in">min</span>() - <span class="number">1</span>, X[:, <span class="number">0</span>].<span class="built_in">max</span>() + <span class="number">1</span></span><br><span class="line">y_min, y_max = X[:, <span class="number">1</span>].<span class="built_in">min</span>() - <span class="number">1</span>, X[:, <span class="number">1</span>].<span class="built_in">max</span>() + <span class="number">1</span></span><br><span class="line">xx, yy = np.meshgrid(np.arange(x_min, x_max, h),</span><br><span class="line">                     np.arange(y_min, y_max, h))</span><br><span class="line">Z = model.predict(np.c_[xx.ravel(), yy.ravel()])</span><br><span class="line">Z = Z.reshape(xx.shape)</span><br><span class="line">plt.contourf(xx, yy, Z, cmap=plt.cm.coolwarm, alpha=<span class="number">0.8</span>)</span><br><span class="line">plt.scatter(X[:, <span class="number">0</span>], X[:, <span class="number">1</span>], c=y, cmap=<span class="string">&#x27;viridis&#x27;</span>, alpha=<span class="number">0.5</span>)</span><br><span class="line">plt.xlabel(<span class="string">&#x27;Feature 1&#x27;</span>)</span><br><span class="line">plt.ylabel(<span class="string">&#x27;Feature 2&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+
+<pre><code>Text(0, 0.5, &#39;Feature 2&#39;)
+</code></pre>
+<p><img src="/image/output_70_1.png" alt="png"></p>
+<p>在KNN中，k值是一个超参数。改变k值，决策边界会发生变化<br><br><img src="/image/diffK.jpg" alt="title"></p>
+<p>当数据量较小或维度较小时，KNN 的效果很好，但是当数据量较大或维度较大时，由于要处理大量的训练数据，所以分类将变慢。<br><br>这是由于在对未知数据进行分类时，KNN 需要在大量的训练数据上进行近邻搜索以找到最近的点。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+        
+          <li><a href="/">Home</a></li>
+        
+          <li><a href="/archives/">Writing</a></li>
+        
+          <li><a target="_blank" rel="noopener" href="https://github.com/bankaibk">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    
+    
+      <div id="toc-footer" style="display: none">
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%9C%89%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0"><span class="toc-number">1.</span> <span class="toc-text">2.有监督学习</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92"><span class="toc-number">1.1.</span> <span class="toc-text">2. 1线性回归</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2%E6%AD%A3%E5%88%99%E5%8C%96"><span class="toc-number">1.2.</span> <span class="toc-text">2. 2正则化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92"><span class="toc-number">1.3.</span> <span class="toc-text">2. 3逻辑回归</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA"><span class="toc-number">1.4.</span> <span class="toc-text">2. 4支持向量机</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5%E6%94%AF%E6%8C%81%E5%90%91%E9%87%8F%E6%9C%BA-%E6%A0%B8%E6%96%B9%E6%B3%95"><span class="toc-number">1.5.</span> <span class="toc-text">2. 5支持向量机(核方法)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-6%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF"><span class="toc-number">1.6.</span> <span class="toc-text">2. 6朴素贝叶斯</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-7%E9%9A%8F%E6%9C%BA%E6%A3%AE%E6%9E%97"><span class="toc-number">1.7.</span> <span class="toc-text">2. 7随机森林</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-8%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C"><span class="toc-number">1.8.</span> <span class="toc-text">2. 8神经网络</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-9KNN"><span class="toc-number">1.9.</span> <span class="toc-text">2. 9KNN</span></a></li></ol></li></ol>
+      </div>
+    
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://example.com/2024/04/14/Chapter2/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://example.com/2024/04/14/Chapter2/&text=Chapter2"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://example.com/2024/04/14/Chapter2/&title=Chapter2"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://example.com/2024/04/14/Chapter2/&is_video=false&description=Chapter2"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Chapter2&body=Check out this article: http://example.com/2024/04/14/Chapter2/"><i class="fa-solid fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://example.com/2024/04/14/Chapter2/&title=Chapter2"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://example.com/2024/04/14/Chapter2/&title=Chapter2"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://example.com/2024/04/14/Chapter2/&title=Chapter2"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://example.com/2024/04/14/Chapter2/&title=Chapter2"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://example.com/2024/04/14/Chapter2/&name=Chapter2&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://example.com/2024/04/14/Chapter2/&t=Chapter2"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fa-solid fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        
+          <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fa-solid fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fa-solid fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa-solid fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2024
+    John Doe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a target="_blank" rel="noopener" href="https://github.com/bankaibk">Projects</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script>
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script>
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="fa-regular fa-clone"></i>';
+    btn += '</span>';
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Disqus Comments -->
+
+<!-- utterances Comments -->
+
+</body>
+</html>
